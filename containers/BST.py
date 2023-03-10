@@ -3,7 +3,7 @@ This file implements the Binary Search Tree data structure.
 The functions in this file are considerably harder than the functions in the BinaryTree file.
 '''
 
-from containers.BinaryTree import BinaryTree, Node
+from BinaryTree import BinaryTree, Node
 
 
 class BST(BinaryTree):
@@ -19,7 +19,8 @@ class BST(BinaryTree):
         If xs is a list (i.e. xs is not None),
         then each element of xs needs to be inserted into the BST.
         '''
-        super().__init__()
+        if xs:
+            self.insert_list(xs)
 
     def __repr__(self):
         '''
@@ -63,12 +64,13 @@ class BST(BinaryTree):
         '''
         ret = True
         if node.left:
-            if node.value >= node.left.value:
+            
+            if node.value > node.left.value and BST._find_smallest(node) is node.left: 
                 ret &= BST._is_bst_satisfied(node.left)
             else:
                 ret = False
         if node.right:
-            if node.value <= node.right.value:
+            if node.value < node.right.value and BST._find_largest(node) is node.right:
                 ret &= BST._is_bst_satisfied(node.right)
             else:
                 ret = False
@@ -148,6 +150,20 @@ class BST(BinaryTree):
         HINT:
         Follow the pattern of the _find_smallest function.
         '''
+        if self.root is None:
+            raise ValueError('Nothing in tree')
+        else:
+            return BST._find_largest(self.root)
+
+    def _find_largest(node):
+        '''
+        This is a helper function for find_smallest and not intended to be called directly by the user.
+        '''
+        assert node is not None
+        if node.right is None:
+            return node.value
+        else:
+            return BST._find_largest(node.right)
 
     def remove(self, value):
         '''
