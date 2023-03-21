@@ -82,7 +82,7 @@ class BST(BinaryTree):
                 ret = False
         if node.right:
             if node.right.value > node.value and \
-              node.value < BST._find_smallest(node.right):
+               node.value < BST._find_smallest(node.right):
                 ret &= BST._is_bst_satisfied(node.right)
             else:
                 ret = False
@@ -104,6 +104,7 @@ class BST(BinaryTree):
         else:
             self.root = Node(value)
 
+    @staticmethod
     def _insert(node, value):
         if value < node.value:
             if node.left:
@@ -204,6 +205,7 @@ class BST(BinaryTree):
         else:
             return BST._find_largest(self.root)
 
+    @staticmethod
     def _find_largest(node):
         '''
         This is a helper function for find_smallest and not
@@ -235,6 +237,7 @@ class BST(BinaryTree):
         else:
             self.root = BST._remove(self.root, value)
 
+    @staticmethod
     def _remove(node, value):
         if node is None:
             return node
@@ -257,15 +260,15 @@ class BST(BinaryTree):
                 node = None
                 return temp
             else:
-                succParent = node
+                succparent = node
                 succ = node.right
                 while succ.left is not None:
-                    succParent = succ
+                    succparent = succ
                     succ = succ.left
-                if succParent != node:
-                    succParent.left = succ.right
+                if succparent != node:
+                    succparent.left = succ.right
                 else:
-                    succParent.right = succ.right
+                    succparent.right = succ.right
                 node.value = succ.value
                 return node
 
