@@ -1,6 +1,7 @@
 '''
 This file implements the AVL Tree data structure.
-The functions in this file are considerably harder than the functions in the BinaryTree and BST files,
+The functions in this file are considerably harder than the functions in the
+BinaryTree and BST files,
 but there are fewer of them.
 '''
 
@@ -40,7 +41,8 @@ class AVLTree(BST):
 
     def is_avl_satisfied(self):
         '''
-        Returns True if the avl tree satisfies that all nodes have a balance factor in [-1,0,1].
+        Returns True if the avl tree satisfies that all nodes have a balance
+        factor in [-1,0,1].
         '''
         return AVLTree._is_avl_satisfied(self.root)
 
@@ -55,7 +57,7 @@ class AVLTree(BST):
         ret = True
         if node.left:
             if AVLTree._balance_factor(node) >= -1 \
-                    and AVLTree._balance_factor(node) <= 1: 
+                    and AVLTree._balance_factor(node) <= 1:
                 ret &= AVLTree._is_avl_satisfied(node.left)
             else:
                 ret = False
@@ -75,7 +77,8 @@ class AVLTree(BST):
 
         The lecture videos provide a high-level overview of tree rotations,
         and the textbook provides full python code.
-        The textbook's class hierarchy for their AVL tree code is fairly different from our class hierarchy,
+        The textbook's class hierarchy for their AVL tree code is fairly
+        different from our class hierarchy,
         however, so you will have to adapt their code.
         '''
         if node is None or node.right is None:
@@ -98,7 +101,8 @@ class AVLTree(BST):
 
         The lecture videos provide a high-level overview of tree rotations,
         and the textbook provides full python code.
-        The textbook's class hierarchy for their AVL tree code is fairly different from our class hierarchy,
+        The textbook's class hierarchy for their AVL tree code is fairly
+        different from our class hierarchy,
         however, so you will have to adapt their code.
         '''
         if node is None or node.left is None:
@@ -118,14 +122,17 @@ class AVLTree(BST):
         FIXME:
         Implement this function.
 
-        The lecture videos provide a high-level overview of how to insert into an AVL tree,
+        The lecture videos provide a high-level overview of how to
+        insert into an AVL tree,
         and the textbook provides full python code.
-        The textbook's class hierarchy for their AVL tree code is fairly different from our class hierarchy,
+        The textbook's class hierarchy for their AVL tree code is
+        fairly different from our class hierarchy,
         however, so you will have to adapt their code.
 
         HINT:
         It is okay to add @staticmethod helper functions for this code.
-        The code should look very similar to the code for your insert function for the BST,
+        The code should look very similar to the code for your insert
+        function for the BST,
         but it will also call the left and right rebalancing functions.
         '''
         super().insert(value)
@@ -137,9 +144,10 @@ class AVLTree(BST):
     def _insertv(node):
         if node is None:
             return node
-        if AVLTree._balance_factor(node) < -1 or AVLTree._balance_factor(node) > 1:
+        if AVLTree._balance_factor(node) < -1 \
+                or AVLTree._balance_factor(node) > 1:
             node = AVLTree._rebalance(node)
-        if node.left:    
+        if node.left:
             node.left = AVLTree._insertv(node.left)
         if node.right:
             node.right = AVLTree._insertv(node.right)
@@ -155,21 +163,19 @@ class AVLTree(BST):
         so I recommend including that code here.
         '''
         if AVLTree._balance_factor(node) < 0:
-             if AVLTree._balance_factor(node.right) > 0:
+            if AVLTree._balance_factor(node.right) > 0:
                 node.right = AVLTree._right_rotate(node.right)
                 node = AVLTree._left_rotate(node)
-             else:
+            else:
                 node = AVLTree._left_rotate(node)
         elif AVLTree._balance_factor(node) > 0:
-             if AVLTree._balance_factor(node.left) < 0:
+            if AVLTree._balance_factor(node.left) < 0:
                 node.left = AVLTree._left_rotate(node.left)
                 node = AVLTree._right_rotate(node)
-             else:
-                 node = AVLTree._right_rotate(node)
+            else:
+                node = AVLTree._right_rotate(node)
         return node
-        node.height = 1 + max(AVLTree._height(node.left), AVLTree._height(node.right))
 
     def insert_list(self, xs):
         for x in xs:
             AVLTree.insert(self, value=x)
-
