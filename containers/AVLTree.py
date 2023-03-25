@@ -128,32 +128,23 @@ class AVLTree(BST):
         The code should look very similar to the code for your insert function for the BST,
         but it will also call the left and right rebalancing functions.
         '''
-        if self.root:
-            AVLTree._insert(self.root, value)
-        else:
-            self.root = Node(value)
-
+        super().insert(value)
+        self.root = AVLTree._insertv(self.root)
+        print("self.root=", self.root)
+        return self.root
 
     @staticmethod
-    def _insert(node, value):
-        if value < node.value:
-            if node.left:
-                AVLTree._insert(node.left, value)
-            else:
-                node.left = Node(value)
-                if AVLTree._balance_factor(node) > 1 or \
-                        AVLTree._balance_factor(node) < -1:
-                            AVLTree._rebalance(node.left)
-
-        elif value > node.value:
-            if node.right:
-                AVLTree._insert(node.right, value)
-            else:
-                node.right = Node(value)
-                if AVLTree._balance_factor(node) > 1 or \
-                        AVLTree._balance_factor(node) < -1:
-                            AVLTree._rebalance(node.right)
-
+    def _insertv(node):
+        if node is None:
+            return node
+        if AVLTree._balance_factor(node) < -1 or AVLTree._balance_factor(node) > 1:
+            node = AVLTree._rebalance(node)
+        if node.left:    
+            node.left = AVLTree._insertv(node.left)
+        if node.right:
+            node.right = AVLTree._insertv(node.right)
+        print("node=", node)
+        return node
 
     @staticmethod
     def _rebalance(node):
@@ -165,13 +156,20 @@ class AVLTree(BST):
         '''
         if AVLTree._balance_factor(node) < 0:
              if AVLTree._balance_factor(node.right) > 0:
-                AVLTree._right_rotate(node.right)
-                AVLTree._left_rotate(node)
+                node.right = AVLTree._right_rotate(node.right)
+                node = AVLTree._left_rotate(node)
              else:
-                AVLTree._left_rotate(node)
+                node = AVLTree._left_rotate(node)
         elif AVLTree._balance_factor(node) > 0:
              if AVLTree._balance_factor(node.left) < 0:
-                AVLTree._left_rotate(node.left)
-                AVLTree._right_rotate(node)
+                node.left = AVLTree._left_rotate(node.left)
+                node = AVLTree._right_rotate(node)
              else:
-                AVLTree._right_rotate(node)
+                 node = AVLTree._right_rotate(node)
+        return node
+        node.height = 1 + max(AVLTree._height(node.left), AVLTree._height(node.right))
+
+    def insert_list(self, xs):
+        for x in xs:
+            AVLTree.insert(self, value=x)
+
