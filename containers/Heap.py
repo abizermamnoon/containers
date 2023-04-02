@@ -112,6 +112,7 @@ class Heap(BinaryTree):
         else:
             Heap._insert(self.root, value, binary_str)
 
+    @staticmethod
     def _insert(node, value, binary_str):
         if binary_str[0] == '0':
             if len(binary_str) == 1:
