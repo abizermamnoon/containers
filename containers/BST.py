@@ -61,7 +61,7 @@ class BST(BinaryTree):
         if self is None or t2 is None:
             return False
         list_1 = self.to_list('inorder')
-        list_2 = t2.to_list('inorder')
+        list_2 = t2
         if list_1 == list_2:
             return True
         else:
